@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+<!--    配置账户的持久层-->
+    <bean id="accountDao" class="com.wxy.dao.impl.AccountDaoImpl">
+<!--        <property name="jdbcTemplate" ref="jdbcTemplate"></property>-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+<!--    配置业务层-->
+    <bean id="accountService" class="com.wxy.service.impl.AccountSetviceImpl">
+        <property name="accountDao" ref="accountDao"></property>
+    </bean>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/testspring"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+<!--    spring中基于xml的声明式事务控制-->
+<!--    1.配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+<!--    2.配置事务的通知：需要导入事务的约束(tx和aop) ↑-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+<!--        5.配置事务的属性
+                isolation:用于指定事务的隔离级别，默认default,表示使用数据库的默认隔离级别
+                propagation:用于指定事务的传播行为，默认值是REQUIRED，表示一定会有事务
+                read-only:用于指定事务是否只读，只有查询方法才能设置为true，默认值是false;
+                timeout:用于指定事务的超时时间，默认值是-1，表示永不超时，设置单位为秒
+                no-rollback-for:用于指定一个异常，当产生该异常时，事务回滚，其他异常不回滚，默认任何异常都回滚
+                roolback-for:用于指定一个异常，当产生该异常时，事务不回滚，其他异常回滚，默认任何异常都回滚
+
+-->
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+<!--    3.配置aop中的通用切入点表达式-->
+    <aop:config>
+        <aop:pointcut id="pt1" expression="execution(* com.wxy.service.impl.*.*(..))"/>
+<!--        4.建立事务通知和切入点表达式的对应关系-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pt1"></aop:advisor>
+    </aop:config>
+</beans>

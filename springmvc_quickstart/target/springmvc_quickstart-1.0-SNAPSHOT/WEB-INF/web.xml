@@ -1,0 +1,18 @@
+<web-app>
+  <!-- 配置核心控制器 -->
+  <servlet>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!-- 使核心控制器初始化时读取bean.xml文件创建Spring核心容器 -->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:bean.xml</param-value>
+    </init-param>
+    <!-- 设置该Servlet的优先级别未最高,使之最早创建 -->
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>dispatcherServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>

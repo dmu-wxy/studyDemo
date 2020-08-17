@@ -1,0 +1,24 @@
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<!DOCTYPE configuration-->
+<!--        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-config.dtd">-->
+<!--<configuration>-->
+<!--&lt;!&ndash;    配置环境     整合Mybatis和spring之后就不需要此文件了&ndash;&gt;-->
+<!--    <environments default="mysql">-->
+<!--        <environment id="mysql">-->
+<!--            <transactionManager type="JDBC"></transactionManager>-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver"/>-->
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/ssm"/>-->
+<!--                <property name="username" value="root"/>-->
+<!--                <property name="password" value="root"/>-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
+<!--&lt;!&ndash;    配置引入的映射文件&ndash;&gt;-->
+<!--    <mappers>-->
+<!--        <mapper class="com.wxy.dao.IAccountDao"></mapper>-->
+<!--&lt;!&ndash;        或者&ndash;&gt;-->
+<!--&lt;!&ndash;        <package name="com.wxy.dao"/>&ndash;&gt;-->
+<!--    </mappers>-->
+<!--</configuration>-->
